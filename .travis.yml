@@ -3,8 +3,8 @@ language: php
 # php compatibility
 php:
   - 7.0
-  - 7.1
-  - 7.2
+#  - 7.1
+#  - 7.2
 
 services:
   - mysql
@@ -23,9 +23,9 @@ before_script:
   - docker ps -a
   # msodbcsql17
   - curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-  - curl https://packages.microsoft.com/config/debian/9/prod.list | sudo tee -a /etc/apt/sources.list.d/msodbcsql17.list
+  - curl https://packages.microsoft.com/config/ubuntu/14.04/prod.list | sudo tee -a /etc/apt/sources.list.d/msodbcsql17.list
   - sudo apt-get update --quiet --quiet
-  - sudo ACCEPT_EULA=Y apt-get install --quiet --yes msodbcsql17 unixodbc-dev
+  - sudo ACCEPT_EULA=Y apt-get install --quiet --yes msodbcsql17
   # ms sql server php driver
   - pecl channel-update pecl.php.net
   - pecl search sqlsrv
