@@ -17,14 +17,17 @@ env:
 sudo: required
 
 before_script:
+  # pdo_dblib php driver
+  - apt-cache search php sybase
+  - sudo apt-get install --quiet --yes php-sybase
+  - 'php -i | grep -A 3 ^pdo_dblib'
+  - pecl search pdo_dblib
+  - pecl install pdo_dblib
+  - 'php -i | grep -A 3 ^pdo_dblib'
   # ms sql server php driver, run before install msodbcsql17
   - pecl search sqlsrv
   - pecl install sqlsrv pdo_sqlsrv
   - 'php -i | grep -i sqlsrv'
-  # pdo_dblib php driver
-  - pecl search pdo_dblib
-  - pecl install pdo_dblib
-  - 'php -i | grep -A 3 ^pdo_dblib'
   # install msodbcsql17
   - curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
   - curl https://packages.microsoft.com/config/ubuntu/14.04/prod.list | sudo tee -a /etc/apt/sources.list.d/msodbcsql17.list
