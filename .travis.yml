@@ -17,17 +17,16 @@ env:
 sudo: required
 
 before_script:
-  # msodbcsql17
-  - curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-  - curl https://packages.microsoft.com/config/ubuntu/14.04/prod.list | sudo tee -a /etc/apt/sources.list.d/msodbcsql17.list
-  - sudo apt-get update --quiet --quiet
-  - apt-cache policy msodbcsql17 unixodbc unixodbc-dev libssl1.0.0
-  - sudo ACCEPT_EULA=Y apt-get install --quiet --yes msodbcsql17 unixodbc unixodbc-dev libssl1.0.0
   # ms sql server php driver
-  - pecl channel-update pecl.php.net
   - pecl search sqlsrv
   - pecl install sqlsrv pdo_sqlsrv
   - echo -e "\n; Microsoft Drivers for PHP for SQL Server\n\nextension=sqlsrv.so\nextension=pdo_sqlsrv.so" > ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  # install msodbcsql17
+  - curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+  - curl https://packages.microsoft.com/config/ubuntu/14.04/prod.list | sudo tee -a /etc/apt/sources.list.d/msodbcsql17.list
+  - sudo apt-get update --quiet --quiet
+  - apt-cache policy sodbcsql17 mssql-tools unixodbc libssl1.0.0
+  - sudo ACCEPT_EULA=Y apt-get install --quiet --yes msodbcsql17 mssql-tools unixodbc libssl1.0.0
   # ms sql server
   - docker pull microsoft/mssql-server-linux
   - docker run --name dbal-mssql -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=Password-123456' -p 1433:1433 -d microsoft/mssql-server-linux
